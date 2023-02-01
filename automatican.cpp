@@ -22,8 +22,8 @@ duration = pulseIn(untrigelid, HIGH);
 distance = (duration/2) / 30;
 // if distance less than 0.6 meter and more than 0
 if (distance <= 55 && distance >= 0) {
-    servo.write(55);
-    delay(3000);
+    servo.write(90);
+    delay(4000);
 } 
 else {
     
@@ -33,7 +33,7 @@ else {
 delay(60);
 }
 {
-    when servo.write(55) is called, the servo will move to the position of 55 degrees.
+    when servo.write(90) is called, the servo will move to the position of 90 degrees.
 when servo.write(160) is called, the servo will move to the position of 160 degrees.
 print(open);
 } 
