@@ -1,43 +1,41 @@
-// Servo library is imported
-#include<Servo.h>
+#include <Servo.h> 
 
-Servo servo;
-int const trigerlid = 6;
-int const untrigelid = 5;
-void setup(){
-{
-pinMode(trigPin, OUTPUT); 
-pinMode(echoPin, INPUT); 
-    servo.attach(3);
-}
-void loop()
-{       double duration, distance;
-digitalWrite(trigerlid, HIGH);
-delay(0.9);
-digitalWrite(trigerlid, LOW);
-// Measure the pulse input in echo pin
-duration = pulseIn(untrigelid, HIGH);
-// Distance is half the duration divided by 30
-    // 30 has been chosen as an estimation from documentation
-distance = (duration/2) / 30;
-// if distance less than 0.6 meter and more than 0
-if (distance <= 55 && distance >= 0) {
-    servo.write(90);
-    delay(4000);
-} 
-else {
-    
-    servo.write(160);
+Servo servo;  // Create a Servo object
+int const trigerlid = 6;  // Pin for trigger
+int const untrigelid = 5;  // Pin for echo
+
+void setup() {
+  pinMode(trigerlid, OUTPUT);  // Set trigger pin as output
+  pinMode(untrigelid, INPUT);  // Set echo pin as input
+  servo.attach(3);  // Attach the servo to pin 3
+
+  Serial.begin(9600);  // Initialize serial communication for debugging
 }
 
-delay(60);
-}
-{
-    when servo.write(90) is called, the servo will move to the position of 90 degrees.
-when servo.write(160) is called, the servo will move to the position of 160 degrees.
-print(open);
-} 
-else {
-    print(closed);
-}
+void loop() {
+  double duration, distance;
+
+  // Trigger the ultrasonic sensor
+  digitalWrite(trigerlid, HIGH);  
+  delayMicroseconds(10);  // Trigger pulse for 10 microseconds
+  digitalWrite(trigerlid, LOW);
+
+  // Measure the duration of the pulse returned
+  duration = pulseIn(untrigelid, HIGH);
+
+  // Calculate the distance in cm
+  distance = (duration / 2) / 30;
+
+  // If the distance is less than or equal to 55 cm, open the lid
+  if (distance <= 55 && distance >= 0) {
+    servo.write(90);  // Move the servo to 90 degrees (open)
+    delay(4000);  // Keep the lid open for 4 seconds
+
+    Serial.println("Lid is open");  // Print the state to the serial monitor
+  } else {
+    servo.write(160);  // Move the servo to 160 degrees (closed)
+    Serial.println("Lid is closed");  // Print the state to the serial monitor
+  }
+
+  delay(60);  // Short delay before taking the next reading
 }
